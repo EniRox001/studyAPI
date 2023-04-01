@@ -21,4 +21,27 @@ router.post('/update/:id/email', userController.user_update_email_post);
 
 router.post('/update/:id/password', userController.user_update_password_post);
 
+router.get('/friends/', userController.user_friends_get);
+
+router.post('/friends/add', userController.user_friends_add_post);
+
+router.get('/friends/:friend_id', userController.user_friends_view_get);
+
+router.post('/friends/delete', userController.user_friends_delete_post);
+
+router.get('/group/', userController.user_group_get);
+
+router.post('/group/add', userController.user_group_add_post);
+
+router.get('/group/group', userController.user_group_get);
+
+router.post('/group/delete', userController.user_group_delete_post);
+
+router.get('/interests/', userController.user_interests_get);
+
+router.post('/interests/add', userController.user_interests_add_post);
+
+router.post('/interests/delete', userController.user_interests_delete_post);
+
+
 module.exports = router

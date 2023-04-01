@@ -3,6 +3,8 @@ const async = require('async');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 
+//============== API ROUTES USER CRUD ==============//
+
 // create api route to get all users
 
 exports.user_list = function(req, res, next) {
@@ -196,4 +198,123 @@ exports.user_delete_post = function(req, res, next) {
 }
 
 
-    
+//============== API ROUTES FRIENDS CRUD ==============//
+
+// create api route to view all friends
+
+exports.user_friends_get = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => res.send(user.friends))
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+// create api route to add friend
+
+exports.user_friends_add_post = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => {
+            user.friends.push(req.body.friend);
+            user.save()
+                .then(user => res.send(user))
+                .catch(err => console.log(err));
+        })
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+// create api route to view specific friend
+
+exports.user_friends_view_get = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => {
+            let friend = user.friends.id(req.params.friend_id);
+            res.send(friend);
+        })
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+// create api route to delete friend
+
+exports.user_friends_delete_post = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => {
+            user.friends.pull(req.body.friend);
+            user.save()
+                .then(user => res.send(user))
+                .catch(err => console.log(err));
+        })
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+//============== API ROUTES GROUP CRUD ==============//
+
+
+// create api route to view group
+
+exports.user_group_get = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => res.send(user.group))
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+
+// create api route to add group
+
+exports.user_group_add_post = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => {
+            user.group.push(req.body.group);
+            user.save()
+                .then(user => res.send(user))
+                .catch(err => console.log(err));
+        })
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+// create api to remove group
+
+exports.user_group_delete_post = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => {
+            user.group.pull(req.body.group);
+            user.save()
+                .then(user => res.send(user))
+                .catch(err => console.log(err));    
+        })
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+//============== API ROUTES INTERESTS CRUD ==============//
+
+// create api route to view interests
+
+exports.user_interests_get = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => res.send(user.interests))
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+// create api route to add interest
+
+exports.user_interests_add_post = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => {
+            user.interests.push(req.body.interest);
+            user.save()
+                .then(user => res.send(user))
+                .catch(err => console.log(err));
+        })
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}
+
+// create api route to delete interest 
+
+exports.user_interests_delete_post = function(req, res, next) {
+    User.findById(req.params.id)
+        .then(user => {
+            user.interests.pull(req.body.interest);
+            user.save()
+                .then(user => res.send(user))
+                .catch(err => console.log(err));
+        })
+        .catch(err => res.status(404).json({ nouserfound: 'No user found' }));
+}    
